@@ -1,0 +1,38 @@
+---
+- name: Check if key file exists
+  ansible.builtin.stat:
+    path: /etc/apt/keyrings/helm.gpg
+  register: helm_key_file
+
+- name: Download key file
+  ansible.builtin.get_url:
+    dest: /tmp/helm.gpg
+    group: root
+    mode: '0644'
+    owner: root
+    url: https://baltocdn.com/helm/signing.asc
+  when: not helm_key_file.stat.exists
+
+- name: Add Helm official GPG key
+  ansible.builtin.command:
+    cmd: gpg --dearmor -o /etc/apt/keyrings/helm.gpg /tmp/helm.gpg
+    creates: /etc/apt/keyrings/helm.gpg
+
+- name: Add Helm official repository
+  ansible.builtin.apt_repository:
+    repo: deb [{{ repo_options }}] {{ repo_link }} all main
+    filename: helm
+  vars:
+    repo_options: arch=amd64 signed-by=/etc/apt/keyrings/helm.gpg
+    repo_link: https://baltocdn.com/helm/stable/debian/
+
+- name: Install Helm
+  ansible.builtin.apt:
+    install_recommends: false
+    name:
+      - git
+      - helm
+
+- name: Install diff plugin
+  kubernetes.core.helm_plugin:
+    plugin_path: https://github.com/databus23/helm-diff

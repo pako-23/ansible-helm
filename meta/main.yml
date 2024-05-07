@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: pako-23
+  description: A role to install Istio on a kubernetes cluster.
+
+  galaxy_tags:
+    - helm
+    - kubernetes
+  
+  license: MIT  
+  min_ansible_version: '1.16'
+  namespace: pako-23
+
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+
+  role_name: helm

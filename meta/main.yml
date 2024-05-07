@@ -6,8 +6,8 @@ galaxy_info:
   galaxy_tags:
     - helm
     - kubernetes
-  
-  license: MIT  
+
+  license: MIT
   min_ansible_version: '1.16'
   namespace: pako-23
 

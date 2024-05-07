@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: pako-23
-  description: A role to install Istio on a kubernetes cluster.
+  description: A role to install Helm on a kubernetes cluster.
 
   galaxy_tags:
     - helm
